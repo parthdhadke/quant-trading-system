@@ -1,10 +1,27 @@
+import os
+import pandas as pd
+import yfinance as yf
 from datetime import date
-from typing import Any
 
-def get_price_data(ticker: str, start: str, end: str) -> Any:
-    """Returns OHLCV price data for a ticker between start and end dates."""
-    print(f"[stub] get_price_data({ticker}, {start}, {end})")
-    return None
+def get_price_data(ticker: str, start: str, end: str) -> pd.DataFrame:
+    """Returns OHLCV price data for a ticker between start and end dates, caching to disk."""
+    cache_path = f"data/raw/prices/{ticker}.parquet"
+
+    if os.path.exists(cache_path):
+        print(f"[cache] Loading {ticker} from {cache_path}")
+        return pd.read_parquet(cache_path)
+
+    print(f"[fetch] Downloading {ticker} from yfinance...")
+    df = yf.download(ticker, start=start, end=end)
+
+    if df.empty:
+        raise ValueError(f"No data returned for {ticker} between {start} and {end}")
+
+    os.makedirs("data/raw/prices", exist_ok=True)
+    df.to_parquet(cache_path)
+    print(f"[cache] Saved to {cache_path}")
+
+    return df
 
 def get_sentiment_score(ticker: str, day: str) -> float:
     """Returns a sentiment score in [-1, 1] for a ticker on a given day."""
