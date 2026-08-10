@@ -1,0 +1,11 @@
+pandas
+numpy
+yfinance
+hmmlearn
+transformers
+torch
+python-dotenv
+streamlit
+python-telegram-bot
+requests
+matplotlib
