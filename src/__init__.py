@@ -1,5 +1,11 @@
 from .backtest import run_backtest
 
+from .integration import (
+    ModelDatasetPipeline,
+    build_model_dataset,
+    validate_model_dataset,
+)
+
 from .evaluation import (
     chronological_split,
     compare_strategies,
@@ -36,6 +42,9 @@ from .signals import (
 )
 
 __all__ = [
+    "ModelDatasetPipeline",
+    "build_model_dataset",
+    "validate_model_dataset",
     "FinBERTSentiment",
     "CausalHMMRegimeModel",
     "CausalHMMRegimePipeline",
