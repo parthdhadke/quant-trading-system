@@ -9,3 +9,5 @@ streamlit
 python-telegram-bot
 requests
 matplotlib
+scipy
+scikit-learn

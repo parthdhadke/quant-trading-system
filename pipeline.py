@@ -2,6 +2,13 @@ import os
 import pandas as pd
 import yfinance as yf
 from datetime import date
+from config import (
+    TICKER,
+    START_DATE,
+    END_DATE,
+    SENTIMENT_BUY_THRESHOLD,
+    SENTIMENT_SELL_THRESHOLD,
+)
 
 def get_price_data(ticker: str, start: str, end: str) -> pd.DataFrame:
     """Returns OHLCV price data for a ticker between start and end dates, caching to disk."""
@@ -39,12 +46,18 @@ def combine_signal(sentiment: float, regime: int) -> str:
     return "HOLD"
 
 if __name__ == "__main__":
-    ticker = "AAPL"
-    today = str(date.today())
+    price_data = get_price_data(
+        TICKER,
+        START_DATE,
+        END_DATE
+    )
 
-    prices = get_price_data(ticker, "2024-01-01", today)
-    sentiment = get_sentiment_score(ticker, today)
-    regime = get_regime_label(ticker, today)
-    action = combine_signal(sentiment, regime)
+    sentiment = get_sentiment_score(TICKER)
+    regime = get_regime_label(price_data)
 
-    print(f"\nFinal signal for {ticker} on {today}: {action}")
+    signal = combine_signal(sentiment, regime)
+
+    print("Ticker:", TICKER)
+    print("Sentiment:", sentiment)
+    print("Regime:", regime)
+    print("Final Signal:", signal)
