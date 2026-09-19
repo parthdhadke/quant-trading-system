@@ -1,0 +1,362 @@
+{
+  "identity": {
+    "version": 1,
+    "tickers": [
+      "AAPL",
+      "MSFT",
+      "NVDA",
+      "JPM",
+      "XOM"
+    ],
+    "start": "2024-01-01",
+    "end_exclusive": "2025-01-01",
+    "settings": {
+      "signals": {
+        "buy_threshold": 0.2,
+        "sell_threshold": -0.25,
+        "sentiment_weight": 0.75,
+        "regime_weight": 0.25,
+        "decision_threshold": 0.5
+      },
+      "hmm": {
+        "n_states": 3,
+        "volatility_window": 20,
+        "random_state": 42,
+        "n_iter": 500,
+        "train_ratio": 0.6,
+        "validation_ratio": 0.2
+      },
+      "evaluation": {
+        "commission_bps": 5.0,
+        "slippage_bps": 5.0,
+        "initial_capital": 100000.0,
+        "target_volatility": 0.15,
+        "max_position_size": 1.0,
+        "min_position_size": 0.0
+      },
+      "selection_source": "C:\\Users\\dhadk\\quant-trading-system\\reports\\tuning\\AAPL_validation_27627953ee6a\\best_validation_config.json",
+      "selection_sha256": "e397363375906151da0d5e5127ced5020878545c5e58128137224429d0d5ac31",
+      "selection_asset": "AAPL",
+      "selection_basis": "Previously locked AAPL validation; shared across all assets"
+    }
+  },
+  "tickers": {
+    "AAPL": {
+      "status": "completed",
+      "test_start": "2024-10-24",
+      "test_end": "2024-12-31",
+      "test_rows": 47,
+      "provenance": {
+        "ticker": "AAPL",
+        "source_paths": [
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\prices\\AAPL.parquet",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\sentiment\\AAPL_20240101_20250101.parquet",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\regimes\\AAPL_20240101_20250101_s3_w20_rs42_i500_tr0p6_va0p2_cv1.parquet",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\model\\AAPL_20240101_20250101_s3_w20_rs42_i500_tr0p6_va0p2_cv1_model35ddd574f145a6e7e281.parquet",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240101_20240131.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240131_20240301.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240301_20240331.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240331_20240430.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240430_20240530.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240530_20240629.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240629_20240729.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240729_20240828.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240828_20240927.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240927_20241027.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241027_20241126.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241126_20241201.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241201_20241208.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241208_20241226.json",
+          "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241226_20250101.json"
+        ],
+        "actual_price_start": "2024-01-02",
+        "actual_price_end": "2024-12-31",
+        "price_rows": 252,
+        "headline_count": 726,
+        "no_news_days": 18,
+        "requests_this_ticker": 0,
+        "warnings": []
+      },
+      "source_hashes": {
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\prices\\AAPL.parquet": "da7d19a7e0df0763c6d8122c3cf30383e827a1a0e367be51c2d4f9e9c24a8d82",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\sentiment\\AAPL_20240101_20250101.parquet": "99558c8d4c6af31be36269722c04ba85eaffa824f15d4e72c67fd2c2266eb256",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\regimes\\AAPL_20240101_20250101_s3_w20_rs42_i500_tr0p6_va0p2_cv1.parquet": "9f9ec962113eda8d343690e35c1b4ff610bcfac6969b48cfbce1dce3105ac86a",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\model\\AAPL_20240101_20250101_s3_w20_rs42_i500_tr0p6_va0p2_cv1_model35ddd574f145a6e7e281.parquet": "e46b273fbdbb55762aeca2119b88ef252ad55073ca3560e3ebb4dfa2311883ef",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240101_20240131.json": "a73ea8db823193f9c43e1a3b833143aea5cd2ba9d822b3fef04f8001c984bfd8",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240131_20240301.json": "88698d6400b5b65d237fded253b302ab8957630fe86869f78e3bc2f96d001f99",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240301_20240331.json": "9f4e119a19e868c1674c790c625333917434a5e59d7fdad14a9c3a50364b08d2",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240331_20240430.json": "2c02fda5c93162fe12b8809372ffcaa07d770786d83499d48679d48a2a69a5a4",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240430_20240530.json": "b91d11f18fa32d7bc63260b8f51f2069792049032f340e1ecdc2ea9e3c3fc76e",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240530_20240629.json": "721459d27cb419148cae0132b0418dfa14660c3c49f161c1fc5bd0064fdb220f",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240629_20240729.json": "ef450b096ae44d67d361682aff83e890ec116e8e8b948c803e3ff08367be3c5c",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240729_20240828.json": "2b522194d1a7fe4a524d9bd6fc85a68fc5f34d958ad39ecfcf025a34ed5e608c",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240828_20240927.json": "ae7dfe3e06f8860b15c6620117061b5c5dfa7a98fc4ed60361fb85286225f6e5",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20240927_20241027.json": "56b7d39edec84b778eb9fb6982ddfd80efa0ba08bb3a2af095206081a25a6758",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241027_20241126.json": "9dde1689c0b0e9570c76f12dfd7a8f946cca9ca69a093f7b08b9fe01af4376d7",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241126_20241201.json": "2a4252fab7e91654f31c1099fa70ba964204e410e6d5e6b336a253ca5d191df5",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241201_20241208.json": "cf3cc4e1b1f6210eb4a036e0a3017204624c477ac2e0ccd81c55c23fae224090",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241208_20241226.json": "1852d43c352c0b00b6e20b0944b8837977bb53d84e2c2f5ee422505c2599d8f7",
+        "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\news\\AAPL_20241226_20250101.json": "d15db5798afbcafcdadca130fe96fb21be156969dd9af5d32ed777107a64d380"
+      },
+      "artifacts": {
+        "buy_and_hold.parquet": "b545d257ce3ae1234b770e05041d5ea686c96441e00c192ceea251853614c99f",
+        "combined.parquet": "50c0354502e0084ce0085cd9f97a4fca996903b698ad007d3a42aba4b9a4b0e4",
+        "combined_volatility_sized.parquet": "65e9d37d989a852b94fad1235173c35f619886ff7d1e854a18477d37799db585",
+        "comparison.parquet": "75fcabbbd7d9efbb3da34db3b249bc729fe4797fa8cdd50ba6dcd47b21c51ca8",
+        "equity_curves.parquet": "087163c05ff423672ca7eab5aa4b52cfdb0f52bf4e6834fa5ec27ab931822af7",
+        "regime_only.parquet": "f16c91a27190bbb9e048fbeb7bc79da214491a8e74924011a69e500d2eafc5a4",
+        "sentiment_only.parquet": "50c0354502e0084ce0085cd9f97a4fca996903b698ad007d3a42aba4b9a4b0e4"
+      }
+    },
+    "MSFT": {
+      "status": "incomplete",
+      "missing_news_ranges": [
+        [
+          "2024-05-30",
+          "2025-01-01"
+        ]
+      ],
+      "price_cache": "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\prices\\MSFT.parquet",
+      "price_cache_exists": true,
+      "sentiment_cache_exists": false,
+      "missing_price_ranges": [],
+      "warnings": [],
+      "reason": "NewsRequestLimit: Local rolling 24-hour request budget (20) reached",
+      "missing_sentiment_dates": [
+        "2024-05-30",
+        "2024-05-31",
+        "2024-06-03",
+        "2024-06-04",
+        "2024-06-05",
+        "2024-06-06",
+        "2024-06-07",
+        "2024-06-10",
+        "2024-06-11",
+        "2024-06-12",
+        "2024-06-13",
+        "2024-06-14",
+        "2024-06-17",
+        "2024-06-18",
+        "2024-06-20",
+        "2024-06-21",
+        "2024-06-24",
+        "2024-06-25",
+        "2024-06-26",
+        "2024-06-27",
+        "2024-06-28",
+        "2024-07-01",
+        "2024-07-02",
+        "2024-07-03",
+        "2024-07-05",
+        "2024-07-08",
+        "2024-07-09",
+        "2024-07-10",
+        "2024-07-11",
+        "2024-07-12",
+        "2024-07-15",
+        "2024-07-16",
+        "2024-07-17",
+        "2024-07-18",
+        "2024-07-19",
+        "2024-07-22",
+        "2024-07-23",
+        "2024-07-24",
+        "2024-07-25",
+        "2024-07-26",
+        "2024-07-29",
+        "2024-07-30",
+        "2024-07-31",
+        "2024-08-01",
+        "2024-08-02",
+        "2024-08-05",
+        "2024-08-06",
+        "2024-08-07",
+        "2024-08-08",
+        "2024-08-09",
+        "2024-08-12",
+        "2024-08-13",
+        "2024-08-14",
+        "2024-08-15",
+        "2024-08-16",
+        "2024-08-19",
+        "2024-08-20",
+        "2024-08-21",
+        "2024-08-22",
+        "2024-08-23",
+        "2024-08-26",
+        "2024-08-27",
+        "2024-08-28",
+        "2024-08-29",
+        "2024-08-30",
+        "2024-09-03",
+        "2024-09-04",
+        "2024-09-05",
+        "2024-09-06",
+        "2024-09-09",
+        "2024-09-10",
+        "2024-09-11",
+        "2024-09-12",
+        "2024-09-13",
+        "2024-09-16",
+        "2024-09-17",
+        "2024-09-18",
+        "2024-09-19",
+        "2024-09-20",
+        "2024-09-23",
+        "2024-09-24",
+        "2024-09-25",
+        "2024-09-26",
+        "2024-09-27",
+        "2024-09-30",
+        "2024-10-01",
+        "2024-10-02",
+        "2024-10-03",
+        "2024-10-04",
+        "2024-10-07",
+        "2024-10-08",
+        "2024-10-09",
+        "2024-10-10",
+        "2024-10-11",
+        "2024-10-14",
+        "2024-10-15",
+        "2024-10-16",
+        "2024-10-17",
+        "2024-10-18",
+        "2024-10-21",
+        "2024-10-22",
+        "2024-10-23",
+        "2024-10-24",
+        "2024-10-25",
+        "2024-10-28",
+        "2024-10-29",
+        "2024-10-30",
+        "2024-10-31",
+        "2024-11-01",
+        "2024-11-04",
+        "2024-11-05",
+        "2024-11-06",
+        "2024-11-07",
+        "2024-11-08",
+        "2024-11-11",
+        "2024-11-12",
+        "2024-11-13",
+        "2024-11-14",
+        "2024-11-15",
+        "2024-11-18",
+        "2024-11-19",
+        "2024-11-20",
+        "2024-11-21",
+        "2024-11-22",
+        "2024-11-25",
+        "2024-11-26",
+        "2024-11-27",
+        "2024-11-29",
+        "2024-12-02",
+        "2024-12-03",
+        "2024-12-04",
+        "2024-12-05",
+        "2024-12-06",
+        "2024-12-09",
+        "2024-12-10",
+        "2024-12-11",
+        "2024-12-12",
+        "2024-12-13",
+        "2024-12-16",
+        "2024-12-17",
+        "2024-12-18",
+        "2024-12-19",
+        "2024-12-20",
+        "2024-12-23",
+        "2024-12-24",
+        "2024-12-26",
+        "2024-12-27",
+        "2024-12-30",
+        "2024-12-31"
+      ],
+      "processed_days": 103,
+      "expected_days": 252,
+      "requests_this_ticker": 0,
+      "requests_this_run": 0,
+      "stop_basket": true
+    },
+    "NVDA": {
+      "status": "incomplete",
+      "missing_news_ranges": [
+        [
+          "2024-01-01",
+          "2025-01-01"
+        ]
+      ],
+      "price_cache": "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\prices\\NVDA.parquet",
+      "price_cache_exists": false,
+      "sentiment_cache_exists": false,
+      "missing_price_ranges": [
+        [
+          "2024-01-01",
+          "2025-01-01"
+        ]
+      ],
+      "warnings": [],
+      "reason": "Not attempted after stop: NewsRequestLimit: Local rolling 24-hour request budget (20) reached"
+    },
+    "JPM": {
+      "status": "incomplete",
+      "missing_news_ranges": [
+        [
+          "2024-01-01",
+          "2025-01-01"
+        ]
+      ],
+      "price_cache": "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\prices\\JPM.parquet",
+      "price_cache_exists": false,
+      "sentiment_cache_exists": false,
+      "missing_price_ranges": [
+        [
+          "2024-01-01",
+          "2025-01-01"
+        ]
+      ],
+      "warnings": [],
+      "reason": "Not attempted after stop: NewsRequestLimit: Local rolling 24-hour request budget (20) reached"
+    },
+    "XOM": {
+      "status": "incomplete",
+      "missing_news_ranges": [
+        [
+          "2024-01-01",
+          "2025-01-01"
+        ]
+      ],
+      "price_cache": "C:\\Users\\dhadk\\quant-trading-system\\data\\raw\\prices\\XOM.parquet",
+      "price_cache_exists": false,
+      "sentiment_cache_exists": false,
+      "missing_price_ranges": [
+        [
+          "2024-01-01",
+          "2025-01-01"
+        ]
+      ],
+      "warnings": [],
+      "reason": "Not attempted after stop: NewsRequestLimit: Local rolling 24-hour request budget (20) reached"
+    }
+  },
+  "stop_reason": "NewsRequestLimit: Local rolling 24-hour request budget (20) reached",
+  "completed": [
+    "AAPL"
+  ],
+  "incomplete": [
+    "MSFT",
+    "NVDA",
+    "JPM",
+    "XOM"
+  ],
+  "interpretation": "Descriptive equal-weight summaries of per-asset metrics, not pooled portfolio returns or significance tests",
+  "classification_rules": "Fewer than 3 completed: insufficient coverage; none positive: weak; all positive and all beat benchmark (or benchmark itself): consistent; mixed signs and >=20pp return spread: highly ticker-dependent; otherwise mixed",
+  "limitations": [
+    "AAPL was the configuration-selection asset, not independent cross-asset evidence",
+    "Incomplete baskets are provisional and subject to coverage bias",
+    "First test row flat; t+1 close-to-close proxy; no terminal liquidation",
+    "Trades are turnover events; exposure includes flat rows; costs are summed return units",
+    "No portfolio pooling, per-ticker tuning or test-based parameter selection"
+  ]
+}

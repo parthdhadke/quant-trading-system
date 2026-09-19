@@ -1,0 +1,21 @@
+{
+  "buy_threshold": 0.2,
+  "sell_threshold": -0.25,
+  "sentiment_weight": 0.75,
+  "regime_weight": 0.25,
+  "decision_threshold": 0.5,
+  "hmm_state_count": 3,
+  "config_id": "5de6adb40cea1c24",
+  "selection_split": "validation",
+  "validation_sharpe_ratio": 3.3130422723381283,
+  "minimum_trades": 2,
+  "ranking_metric": "validation_sharpe_ratio",
+  "tie_breakers": [
+    "net_return",
+    "max_drawdown",
+    "lower_turnover",
+    "configuration_id"
+  ],
+  "validation_only": true,
+  "test_metrics_used_for_selection": false
+}

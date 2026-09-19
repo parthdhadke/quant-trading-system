@@ -96,6 +96,10 @@ def performance_metrics(
     return_column="net_return",
     annualization_factor=252,
 ):
+    if not np.isfinite(annualization_factor) or annualization_factor <= 0:
+        raise ValueError("annualization_factor must be finite and positive")
+    if not backtest.columns.is_unique or backtest.index.has_duplicates:
+        raise ValueError("Metric inputs require unique columns and index")
     if (
         return_column
         not in backtest.columns
@@ -108,8 +112,13 @@ def performance_metrics(
         backtest[
             return_column
         ],
-        errors="coerce",
-    ).dropna()
+        errors="raise",
+    ).astype(float)
+
+    if not np.isfinite(returns.to_numpy()).all():
+        raise ValueError("Metric returns must be finite; periods cannot be silently dropped")
+    if (returns <= -1.0).any():
+        raise ValueError("Metric returns must be greater than -100%")
 
     if returns.empty:
         raise ValueError(
@@ -183,7 +192,7 @@ def performance_metrics(
     ).cumprod()
 
     running_peak = (
-        equity_curve.cummax()
+        equity_curve.cummax().clip(lower=1.0)
     )
 
     drawdown = (
@@ -281,8 +290,16 @@ def performance_metrics(
     else:
         total_transaction_cost = 0.0
 
-    return {
+    gross_total_return = None
+    if "gross_return" in backtest.columns:
+        gross = pd.to_numeric(backtest["gross_return"], errors="raise").to_numpy(dtype=float)
+        if not np.isfinite(gross).all() or (gross <= -1.0).any():
+            raise ValueError("Gross returns must be finite and greater than -100%")
+        gross_total_return = float(np.prod(1.0 + gross) - 1.0)
+
+    metrics = {
         "total_return": total_return,
+        "gross_total_return": gross_total_return,
         "annualized_return": annualized_return,
         "annualized_volatility": annualized_volatility,
         "sharpe_ratio": sharpe_ratio,
@@ -292,6 +309,9 @@ def performance_metrics(
         "total_turnover": total_turnover,
         "total_transaction_cost": total_transaction_cost,
     }
+    if not np.isfinite([value for value in metrics.values() if value is not None]).all():
+        raise ValueError("Performance metrics must be finite")
+    return metrics
 
 
 def compare_strategies(
@@ -325,6 +345,7 @@ def compare_strategies(
     columns = [
         "strategy",
         "total_return",
+        "gross_total_return",
         "annualized_return",
         "annualized_volatility",
         "sharpe_ratio",

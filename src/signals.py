@@ -1,5 +1,7 @@
 import numpy as np
 
+from config import MAX_POSITION_SIZE, MIN_POSITION_SIZE, TARGET_VOLATILITY
+
 
 def sentiment_signal(
     score,
@@ -113,10 +115,12 @@ def combined_signal(
 
 def volatility_position_size(
     current_volatility,
-    target_volatility,
-    max_position_size=1.0,
-    min_position_size=0.0,
+    target_volatility=TARGET_VOLATILITY,
+    max_position_size=MAX_POSITION_SIZE,
+    min_position_size=MIN_POSITION_SIZE,
 ):
+    if not np.isfinite([target_volatility, max_position_size, min_position_size]).all():
+        raise ValueError("Sizing settings must be finite")
     if target_volatility <= 0:
         raise ValueError(
             "target_volatility must be positive"
@@ -126,6 +130,9 @@ def volatility_position_size(
         raise ValueError(
             "max_position_size must be positive"
         )
+
+    if max_position_size > 1.0:
+        raise ValueError("max_position_size cannot exceed 1.0; leverage is disabled")
 
     if min_position_size < 0:
         raise ValueError(
@@ -150,6 +157,9 @@ def volatility_position_size(
 
     if current_volatility <= 0:
         return max_position_size
+
+    if current_volatility <= target_volatility / max_position_size:
+        return float(max_position_size)
 
     raw_size = (
         target_volatility
@@ -238,10 +248,11 @@ def apply_volatility_sizing(
     data,
     signal_column,
     volatility_column,
-    target_volatility,
-    max_position_size=1.0,
-    min_position_size=0.0,
+    target_volatility=TARGET_VOLATILITY,
+    max_position_size=MAX_POSITION_SIZE,
+    min_position_size=MIN_POSITION_SIZE,
     output_column="position",
+    size_column="position_size",
 ):
     if signal_column not in data.columns:
         raise ValueError(
@@ -256,6 +267,14 @@ def apply_volatility_sizing(
             f"Missing required column: {volatility_column}"
         )
 
+    if not data.columns.is_unique:
+        raise ValueError("Sizing requires unique input columns")
+    if (output_column in (signal_column, volatility_column)
+            or size_column in (signal_column, volatility_column, output_column)):
+        raise ValueError("Sizing output columns must not overwrite signals or volatility")
+    if not data[signal_column].isin([-1, 0, 1]).all():
+        raise ValueError("Directional signals must contain only -1, 0, +1")
+    volatility_position_size(None, target_volatility, max_position_size, min_position_size)
     result = data.copy()
 
     sizes = result[
@@ -268,6 +287,8 @@ def apply_volatility_sizing(
             min_position_size,
         )
     )
+
+    result[size_column] = sizes.astype(float)
 
     result[
         output_column

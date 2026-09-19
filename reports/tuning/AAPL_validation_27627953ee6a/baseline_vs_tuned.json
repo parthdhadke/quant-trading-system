@@ -1,0 +1,8 @@
+{
+  "baseline_total_return": -0.0795664874640114,
+  "baseline_sharpe_ratio": -3.23278517343102,
+  "tuned_total_return": -0.017717215427684452,
+  "tuned_sharpe_ratio": -0.9861228908642211,
+  "net_return_change": 0.06184927203632695,
+  "sharpe_change": 2.246662282566799
+}

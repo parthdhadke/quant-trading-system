@@ -1,3 +1,4 @@
+from .ablation import AblationResult, run_ablation
 from .backtest import run_backtest
 
 from .integration import (
@@ -41,7 +42,18 @@ from .signals import (
     volatility_position_size,
 )
 
+from .tuning import (
+    evaluate_selected_test,
+    generate_parameter_grid,
+    get_validation_regimes,
+    robustness_summary,
+    search_validation_parameters,
+    select_best_validation_config,
+)
+
 __all__ = [
+    "AblationResult",
+    "run_ablation",
     "ModelDatasetPipeline",
     "build_model_dataset",
     "validate_model_dataset",
@@ -63,4 +75,10 @@ __all__ = [
     "chronological_split",
     "performance_metrics",
     "compare_strategies",
+    "generate_parameter_grid",
+    "get_validation_regimes",
+    "search_validation_parameters",
+    "select_best_validation_config",
+    "robustness_summary",
+    "evaluate_selected_test",
 ]

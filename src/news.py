@@ -210,6 +210,8 @@ class AlphaVantageNewsClient:
             "ticker": ticker,
             "start_date": start.isoformat(),
             "end_date_exclusive": end.isoformat(),
+            "complete": True,
+            "response_limit": self.limit,
             "payload": payload,
         }
 

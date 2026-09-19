@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "source_model_sha256": "128fe834bca1abe23c33dcafeb7efc64c2941e1c710a8dfc6129fa28f0bbbf31",
+  "grid_size": 450,
+  "minimum_trades": 2,
+  "commission_bps": 5.0,
+  "slippage_bps": 5.0,
+  "hmm_state_counts": [
+    2,
+    3
+  ],
+  "validation_regime_caches": [
+    "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\tuning\\regimes\\AAPL_20240101_20250101_s2_w20_rs42_i500_tr0p6_va0p2_src7043c8b5ccfe95e5_validation.parquet",
+    "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\tuning\\regimes\\AAPL_20240101_20250101_s3_w20_rs42_i500_tr0p6_va0p2_src7043c8b5ccfe95e5_validation.parquet"
+  ],
+  "selection_saved_before_test_evaluation": true,
+  "tuned_combined_test_evaluations": 1,
+  "final_test_evaluation_complete": true
+}

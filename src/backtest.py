@@ -1,15 +1,23 @@
 import numpy as np
 import pandas as pd
 
+from config import BACKTEST_INITIAL_CAPITAL, COMMISSION_BPS, SLIPPAGE_BPS
+
 
 def run_backtest(
     data,
     position_column,
     return_column="return",
-    commission_bps=5.0,
-    slippage_bps=5.0,
-    initial_capital=100000.0,
+    commission_bps=COMMISSION_BPS,
+    slippage_bps=SLIPPAGE_BPS,
+    initial_capital=BACKTEST_INITIAL_CAPITAL,
 ):
+    if data.empty or not data.columns.is_unique:
+        raise ValueError("Backtest requires nonempty data with unique columns")
+
+    settings = np.asarray([commission_bps, slippage_bps, initial_capital], dtype=float)
+    if not np.isfinite(settings).all():
+        raise ValueError("Backtest settings must be finite")
     if (
         position_column
         not in data.columns
@@ -39,10 +47,17 @@ def run_backtest(
             "initial_capital must be positive"
         )
 
-    result = (
-        data.copy()
-        .sort_index()
-    )
+    result = data.copy()
+    if "date" in result.columns:
+        dates = pd.DatetimeIndex(pd.to_datetime(result["date"], errors="raise"))
+        if dates.isna().any() or dates.has_duplicates:
+            raise ValueError("Backtest dates must be non-missing and unique")
+        result["date"] = dates
+        result = result.sort_values("date")
+    else:
+        if result.index.has_duplicates or result.index.isna().any():
+            raise ValueError("Backtest index must be non-missing and unique")
+        result = result.sort_index()
 
     result[
         return_column
@@ -50,7 +65,7 @@ def run_backtest(
         result[
             return_column
         ],
-        errors="coerce",
+        errors="raise",
     )
 
     result[
@@ -59,15 +74,13 @@ def run_backtest(
         result[
             position_column
         ],
-        errors="coerce",
+        errors="raise",
     )
 
-    result = result.dropna(
-        subset=[
-            return_column,
-            position_column,
-        ]
-    ).copy()
+    if not np.isfinite(result[[return_column, position_column]].to_numpy(dtype=float)).all():
+        raise ValueError("Returns and positions must be finite; rows cannot be silently dropped")
+    if (result[return_column] < -1.0).any():
+        raise ValueError("Simple market returns cannot be less than -100%")
 
     result[
         "target_position"
@@ -140,6 +153,9 @@ def run_backtest(
         ]
     )
 
+    if (result[["gross_return", "net_return"]] <= -1.0).any().any():
+        raise ValueError("Strategy loses all capital; insolvency handling is not implemented")
+
     result[
         "gross_equity"
     ] = (
@@ -171,7 +187,7 @@ def run_backtest(
     running_peak = (
         result[
             "equity"
-        ].cummax()
+        ].cummax().clip(lower=float(initial_capital))
     )
 
     result[
@@ -193,10 +209,15 @@ def run_backtest(
 
     values = result[
         [
+            "target_position",
+            "executed_position",
+            "turnover",
             "gross_return",
             "transaction_cost",
             "net_return",
+            "gross_equity",
             "equity",
+            "drawdown",
         ]
     ].to_numpy(
         dtype=float

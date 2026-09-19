@@ -10,13 +10,42 @@ from config import (
     SENTIMENT_SELL_THRESHOLD,
 )
 
-def get_price_data(ticker: str, start: str, end: str) -> pd.DataFrame:
+def get_price_data(ticker: str, start: str, end: str, cache_dir="data/raw/prices",
+                   ensure_range=False, known_cache_range=None) -> pd.DataFrame:
     """Returns OHLCV price data for a ticker between start and end dates, caching to disk."""
-    cache_path = f"data/raw/prices/{ticker}.parquet"
+    cache_path = os.path.join(cache_dir, f"{ticker}.parquet")
 
     if os.path.exists(cache_path):
         print(f"[cache] Loading {ticker} from {cache_path}")
-        return pd.read_parquet(cache_path)
+        cached = pd.read_parquet(cache_path)
+        if cached.attrs.get("ticker", ticker) != ticker:
+            raise ValueError("Price cache ticker metadata mismatch")
+        if not ensure_range:
+            return cached
+        from src.sentiment_coverage import missing_ranges
+
+        coverage = cached.attrs.get("requested_ranges")
+        if coverage is None:
+            if known_cache_range is None:
+                raise ValueError("Legacy price cache lacks requested-range provenance; preserved without assuming coverage")
+            coverage = [list(known_cache_range)]
+        gaps = missing_ranges(start, end, coverage)
+        if not gaps:
+            return cached
+        for left, right in gaps:
+            fragment_dir = os.path.join(cache_dir, "ranges", f"{left:%Y%m%d}_{right:%Y%m%d}")
+            fragment = get_price_data(ticker, str(left.date()), str(right.date()), cache_dir=fragment_dir)
+            if not fragment.columns.equals(cached.columns):
+                raise ValueError("Price extension schema differs; original cache preserved")
+            fragment = fragment.loc[~fragment.index.isin(cached.index)]
+            combined = pd.concat([cached, fragment]).sort_index()
+            coverage = [*coverage, [str(left.date()), str(right.date())]]
+            combined.attrs = {**cached.attrs, "ticker": ticker, "requested_ranges": coverage}
+            temporary = cache_path + ".tmp"
+            combined.to_parquet(temporary)
+            os.replace(temporary, cache_path)
+            cached = combined
+        return cached
 
     print(f"[fetch] Downloading {ticker} from yfinance...")
     df = yf.download(ticker, start=start, end=end)
@@ -24,7 +53,9 @@ def get_price_data(ticker: str, start: str, end: str) -> pd.DataFrame:
     if df.empty:
         raise ValueError(f"No data returned for {ticker} between {start} and {end}")
 
-    os.makedirs("data/raw/prices", exist_ok=True)
+    df.attrs.update({"ticker": ticker, "requested_ranges": [[str(pd.Timestamp(start).date()), str(pd.Timestamp(end).date())]]})
+
+    os.makedirs(cache_dir, exist_ok=True)
     df.to_parquet(cache_path)
     print(f"[cache] Saved to {cache_path}")
 

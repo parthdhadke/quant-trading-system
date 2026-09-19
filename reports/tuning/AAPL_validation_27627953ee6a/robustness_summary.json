@@ -1,0 +1,5 @@
+{
+  "classification": "highly sensitive",
+  "maximum_neighbor_sharpe_drop": 1.6416736777349188,
+  "heuristic": "stable <= 0.5; moderately sensitive <= 1.5; otherwise highly sensitive"
+}

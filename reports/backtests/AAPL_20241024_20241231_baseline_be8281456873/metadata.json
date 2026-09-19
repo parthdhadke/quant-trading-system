@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "model_sha256": "128fe834bca1abe23c33dcafeb7efc64c2941e1c710a8dfc6129fa28f0bbbf31",
+  "settings": {
+    "commission_bps": 5.0,
+    "slippage_bps": 5.0,
+    "initial_capital": 100000.0
+  },
+  "start_flat": true,
+  "liquidate_at_end": false,
+  "source_model_path": "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\model\\AAPL_20240101_20250101_s2_w20_rs42_i500_tr0p6_va0p2_cv1_model8012438e81fc14d96ddd.parquet",
+  "test_start": "2024-10-24",
+  "test_end": "2024-12-31",
+  "test_rows": 47,
+  "annualization_factor": 252,
+  "risk_free_rate": 0,
+  "execution": "Target on test row t is executed on test row t+1; first test row flat for every strategy",
+  "return_convention": "Daily close-to-close proxy, not an explicit next-open fill simulation",
+  "win_rate_definition": "Positive net-return days divided by days with nonzero executed exposure",
+  "trade_definition": "A day with nonzero executed-position turnover; a reversal is one event, two turnover units",
+  "cost_units": "Sum of per-period turnover times cost rate; return units, not currency or compounded cost drag",
+  "excluded_costs": [
+    "stock borrow fees",
+    "financing",
+    "market impact beyond fixed slippage",
+    "terminal liquidation"
+  ]
+}

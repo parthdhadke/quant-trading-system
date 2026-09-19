@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "model_sha256": "128fe834bca1abe23c33dcafeb7efc64c2941e1c710a8dfc6129fa28f0bbbf31",
+  "settings": {
+    "commission_bps": 5.0,
+    "slippage_bps": 5.0,
+    "initial_capital": 100000.0,
+    "target_volatility": 0.15,
+    "max_position_size": 1.0,
+    "min_position_size": 0.0,
+    "target_selection": "prespecified_no_search",
+    "directional_source": "unchanged_cached_baseline_signals"
+  },
+  "start_flat": true,
+  "liquidate_at_end": false,
+  "source_model_path": "C:\\Users\\dhadk\\quant-trading-system\\data\\processed\\model\\AAPL_20240101_20250101_s2_w20_rs42_i500_tr0p6_va0p2_cv1_model8012438e81fc14d96ddd.parquet",
+  "test_start": "2024-10-24",
+  "test_end": "2024-12-31",
+  "test_rows": 47,
+  "validation_start": "2024-08-20",
+  "validation_end": "2024-10-23",
+  "validation_rows": 46,
+  "validation_metrics": {
+    "total_return": -0.021518508765474453,
+    "gross_total_return": -0.007539874422969661,
+    "annualized_return": -0.11234386165753074,
+    "annualized_volatility": 0.1498916640436315,
+    "sharpe_ratio": -0.721348896555765,
+    "max_drawdown": -0.06970713262909856,
+    "win_rate": 0.5,
+    "number_of_trades": 45,
+    "total_turnover": 14.214771892348885,
+    "total_transaction_cost": 0.014214771892348885
+  },
+  "validation_use": "Preflight of a prespecified target; no target search, ranking or test-based selection",
+  "baseline_configuration": {
+    "hmm_states": 2,
+    "sentiment_buy_threshold": 0.3,
+    "sentiment_sell_threshold": -0.3,
+    "sentiment_weight": 0.5,
+    "regime_weight": 0.5,
+    "decision_threshold": 0.5
+  },
+  "volatility": "Existing backward-looking 20-day annualized volatility; no recomputation",
+  "annualization_factor": 252,
+  "risk_free_rate": 0,
+  "execution": "Target on row t executes on row t+1; first evaluation row flat; no manual shift",
+  "return_convention": "Daily close-to-close proxy, not explicit next-open fills",
+  "exposure_definition": "Mean and maximum absolute executed exposure across all test rows, including flat rows",
+  "trade_definition": "Nonzero turnover days, including fractional resizing; not completed round trips",
+  "cost_units": "Sum of per-period turnover times cost rate; not cash fees or compounded return drag",
+  "invalid_volatility_policy": "Experiment rejects nonfinite or negative cached volatility; zero uses capped maximum size",
+  "excluded_costs": [
+    "stock borrow fees",
+    "financing",
+    "market impact beyond fixed slippage",
+    "terminal liquidation"
+  ]
+}
